@@ -7,8 +7,7 @@ app = Flask(__name__)
 
 @app.route('/dashboard/<name>')
 def dashboard(name):
-   return 'welcome %s' % name
-
+   return f'Welcome, {name}!' 
 
 @app.route('/',methods = ['POST', 'GET'])
 def home():
