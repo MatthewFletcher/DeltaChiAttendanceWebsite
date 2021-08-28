@@ -130,3 +130,6 @@ dmypy.json
 
 #Swapfiles
 .*.sw[pod]
+
+.DS_Store
+
