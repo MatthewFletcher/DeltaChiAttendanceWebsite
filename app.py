@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import logging
 
 from flask import Flask
 from flask import render_template
@@ -19,6 +20,7 @@ def home():
 def login():
     if request.method == 'POST':
         last = request.form['name_last']
+        app.logger.info(request.form)
         return redirect(url_for('dashboard',name = last))
     elif request.method == 'GET':
         user = request.args.get('last')
