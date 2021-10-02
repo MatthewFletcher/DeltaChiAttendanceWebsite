@@ -1,6 +1,7 @@
 import sqlite
 import time
 import re 
+import logging
 
 MASTER_DB = "MASTER.DB"
 
@@ -18,13 +19,9 @@ class AttendanceWizard:
         cur.execute(f'''CREATE TABLE {self.TABLE_NAME}(
         ID INT PRIMARY KEY NOT NULL,
         INT TIMESTAMP NOT NULL,
-        LNAME TEXT NOT NULL,
-        FNAME TEXT NOT NULL,
-        STATUS INT NOT NULL,
         SECRET TEXT NOT NULL,
         );'''
         )
-
 
     def sanitizeName(self,last,first):
         '''
@@ -33,13 +30,10 @@ class AttendanceWizard:
         '''
         return (regex.sub('',name).title() for name in (last,first)) 
 
-    def getStatus(self,name_tuple):
-        pass
-
-    def prepStatement(self, name_tuple, secret):
-        last,first = nametuple
+    def prepAndAddStatement(self, identifier, secret):
         #Get unix timestamp of login time
         timestamp = int(time.time())
-        return f"INSERT INTO {self.TABLE_NAME} VALUES('{last}', '{first}',)" 
-
+        toInsert = f"INSERT INTO {self.TABLE_NAME} VALUES('{identifier}, {timestamp}, {secret}')" 
+        logging.debug(f"Command value: >{toInsert}<")
+        self.cur.execute(toInsert) 
 
